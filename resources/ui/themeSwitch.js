@@ -11,6 +11,7 @@
     const root = document.querySelector(":root");
 
     root.setAttribute("data-theme", StorageHelper.get("data-theme"));
+    themeSwitch.setAttribute("title", "Toggle dark mode.");
 
     themeSwitch.addEventListener("click", async () =>
     {

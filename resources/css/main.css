@@ -63,7 +63,7 @@
     transform: rotate(14deg);
 }
 
-.content
+main
 {
     background-color: var(--main-bg-color);
     color: var(--main-fg-color);
@@ -86,7 +86,7 @@
     transition: transform 700ms ease-in-out;
 }
 
-.content:hover
+main:hover
 {
     transform: scale(1, 1);
 }
@@ -107,7 +107,7 @@ body
 
 @media screen and (max-width: 460px)
 {
-    .content
+    main
     {
         transform: scale(1, 1);
         margin-top: 15px;
@@ -117,7 +117,7 @@ body
 
 @media print
 {
-    .content
+    main
     {
         box-shadow: none;
         transform: scale(1, 1);
