@@ -38,7 +38,7 @@
       :root.transitioning-color-theme *::before,
       :root.transitioning-color-theme *::after
       {
-        transition: 0.6s ease all !important;
+        transition: 0.8s ease all !important;
       }
 
       #changeTheme
@@ -107,7 +107,8 @@
       
       body
       {
-        background-image: radial-gradient(var(--background-fg-color),var(--background-bg-color));
+        background-color: var(--background-bg-color);
+        background-image: radial-gradient(var(--background-fg-color), rgba(0, 0, 0, 0.0));
         background-size: 5px 5px;
         
         font-family: sans;
