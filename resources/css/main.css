@@ -79,16 +79,6 @@ main
     margin-bottom: 35px;
 
     padding: 12pt;
-
-    transform: rotate(12deg);
-    transform-origin: top left;
-
-    transition: transform 700ms ease-in-out;
-}
-
-main:hover
-{
-    transform: scale(1, 1);
 }
 
 body, html
@@ -120,7 +110,6 @@ body
     main
     {
         box-shadow: none;
-        transform: scale(1, 1);
         max-width: none;
         margin-left: inherit;
         margin-right: inherit;

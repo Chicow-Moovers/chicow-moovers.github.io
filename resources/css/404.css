@@ -1,0 +1,51 @@
+main
+{
+    box-shadow: 2px 0px 3px rgba(100, 100, 100, 0.8);
+
+    max-width: 400px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 40px;
+    margin-bottom: 35px;
+
+    padding: 12pt;
+
+    transform: rotate(12deg);
+    transform-origin: top left;
+
+    transition: transform 700ms ease-in-out;
+}
+
+main:hover
+{
+    transform: scale(1, 1);
+}
+
+body, html
+{
+    margin: 0;
+}
+
+@media screen and (max-width: 460px)
+{
+    main
+    {
+        transform: scale(1, 1);
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+}
+
+@media print
+{
+    main
+    {
+        box-shadow: none;
+        transform: scale(1, 1);
+        max-width: none;
+        margin-left: inherit;
+        margin-right: inherit;
+    }
+}
