@@ -114,3 +114,20 @@ body
         margin-bottom: 5px;
     }
 }
+
+@media print
+{
+    .content
+    {
+        box-shadow: none;
+        transform: scale(1, 1);
+        max-width: none;
+        margin-left: inherit;
+        margin-right: inherit;
+    }
+    
+    #changeTheme
+    {
+        display: none;
+    }
+}
