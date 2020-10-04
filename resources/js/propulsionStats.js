@@ -80,12 +80,60 @@ const main = async function()
         statDisplayManager.update(key, thrust, 2);
     });
 
+    const ctx = canvas.getContext("2d");
+
+    const handleInvalidCase = () =>
+    {
+        let time = (new Date()).getTime();
+
+        ctx.save();
+
+        ctx.fillStyle = "white";
+        ctx.font = "bold 18pt courier, calibri, mono, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        let loadingText = "";
+
+        for (let i = 0; i < 3; i++)
+        {
+            if (Math.tan(time / 1000 + i * Math.PI * 2 / 3) > 0)
+            {
+                loadingText += '.';
+            }
+            else
+            {
+                loadingText += ' ';
+            }
+        }
+
+        let invalReason = "";
+
+        if (statDisplayManager.getIsInvalid(statDisplayManager.keys.THRUST))
+        {
+            invalReason = "A PROPULSION SYSTEM";
+        }
+        else if (statDisplayManager.getIsInvalid(statDisplayManager.keys.DISTANCE))
+        {
+            invalReason = "A DESTINATION";
+        }
+        else if (statDisplayManager.getIsInvalid(statDisplayManager.keys.MASS))
+        {
+            invalReason = "AN OBJECT";
+        }
+
+        ctx.fillText(loadingText, ctx.canvas.width / 2, ctx.canvas.height / 2);
+
+
+        ctx.fillText(`[ SELECT ${invalReason} ]`, ctx.canvas.width / 2, ctx.canvas.height / 2 - ctx.measureText("M.").width);
+
+        ctx.restore();
+    };
+
     // Display the current status...
     const updateCtxLoop = 
     (async function()
     {
-        const ctx = canvas.getContext("2d");
-
         while (true)
         {
             // Do we need to redraw?
@@ -98,16 +146,15 @@ const main = async function()
 
             ctx.save();
 
-            ctx.font = "18pt serif";
-            ctx.textAlign = "left";
-            ctx.textBaseline = "top";
-
-            ctx.strokeText("Testing", ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
             ctx.restore();
 
-            //let time = (new Date()).getTime(); // Milliseconds
-            //ctx.fillRect(x, y, width, height);
+            if (!statDisplayManager.isValid())
+            {
+                handleInvalidCase();
+            }
 
             // Pause...
             await JSHelper.nextAnimationFrame();
@@ -206,8 +253,6 @@ handleTileGroup = (groupClassNS, onchange) =>
         }
     };
 
-
-
     return result;
 };
 
@@ -273,6 +318,12 @@ StatTextDisplayManager = (function()
         }
 
         return true;
+    };
+
+
+    this.getIsInvalid = (display) =>
+    {
+        return !valid[display];
     };
 
     for (const display in this.keys)

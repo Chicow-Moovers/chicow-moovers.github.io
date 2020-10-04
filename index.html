@@ -46,16 +46,22 @@
         <h1>Propulsion Technology Stat Pack</h1>
 
         <div class="propulsionStats">
+            <div class = "controls hidden" aria-hidden="true">
+                <div id="pre-start">
+                    <button>Start</button>
+                </div>
+                <div id="while-running" class="hidden" aria-hidden="true">
+                    <button>Stop</button>
+                    <input type="range" min = "0" max="10" value = "0" />
+                </div>
+            </div>
+
             <canvas></canvas>
 
             <div class = "stats">
                 <div id="thrust">...</div>
                 <div id="distance">...</div>
                 <div id="mass">...</div>
-            </div>
-
-            <div class = "controls">
-
             </div>
 
             <details>

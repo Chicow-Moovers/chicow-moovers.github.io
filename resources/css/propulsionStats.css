@@ -122,3 +122,58 @@
 
     margin-top: 4px;
 }
+
+.propulsionStats .controls
+{
+    background-color: rgba(100, 50, 50, 0.2);
+    box-shadow: inset 3px -5px 4px var(--shadow-color);
+    border-radius: 14px;
+
+    animation: 1s ease grow-in;
+}
+
+.propulsionStats .hidden
+{
+    animation: 1s ease shrink-out;
+    max-height: 0;
+    overflow: hidden;
+
+    opacity: 0;
+}
+
+.propulsionStats .controls > div
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.propulsionStats .controls input
+{
+    flex-grow: 2;
+    flex-shrink: 1;
+    display: block;
+}
+
+.propulsionStats .controls button
+{
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: block;
+
+    border: none;
+
+    background-color: var(--background-fg-color);
+    color: var(--main-fg-color);
+    border-radius: 8px;
+
+    box-shadow: 0px 0px 2px var(--shadow-color);
+
+    cursor: pointer;
+
+    transition: transform 0.4s linear;
+}
+
+.propulsionStats .controls button:hover, .propulsionStats .controls button:active
+{
+    transform: scale(1.01, 1.1);
+}
