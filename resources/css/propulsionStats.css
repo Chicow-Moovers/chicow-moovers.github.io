@@ -6,6 +6,7 @@
     min-height: 70vh;
 
     border-top: 1px solid grey;
+    padding-top: 5px;
 
     --shadow-color: rgba(100, 100, 100, 0.5);
 }

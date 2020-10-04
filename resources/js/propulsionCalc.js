@@ -11,7 +11,7 @@ let travelDistance;
 let previousTime;
 let propulsionType;
 let velocity;
-let stopped;
+let isStopped;
 let lastRes, startTime;
 let fullDelta;
 const c = 299800000;
@@ -25,7 +25,7 @@ var Setup = (propulsion, m, distKm, thrust) => {
         mass = m;
         velocity = 0;
         travelDistance = 0;
-        stopped = false;
+        isStopped = false;
 /* */
         //Distance units in METERS, very important
         destinationDistance = distKm * 1000;
@@ -35,13 +35,14 @@ var Setup = (propulsion, m, distKm, thrust) => {
         fullDelta = 0;
 };
 
-var GetProgress = (multiplier) => {
-        if (stopped)
+var GetProgress = (multiplier, additionalTime) => {
+        if (isStopped)
         {
             return lastRes;
         }
 
-        time = new Date().getTime() / 1000; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
+        time = new Date().getTime() / 1000;
+        time += additionalTime || 0;
 
         if (!startTime)
         {
@@ -56,7 +57,7 @@ var GetProgress = (multiplier) => {
         deltaTime = (time - previousTime) * multiplier * 60 * 60 * 24;
 
         if (propulsionType != "Alcubierre Drive"){
-                mrel = mass/Math.sqrt(1-Math.pow(velocity,2) / Math.pow(c,2));
+                mrel = mass/Math.sqrt(1-Math.pow(velocity / c,2));
                 velocity += thrustForce/mrel * deltaTime;
                 travelDistance += velocity * deltaTime;
 
@@ -71,7 +72,7 @@ var GetProgress = (multiplier) => {
 
         if (progress >= 1){
             // Stop(); Removed because Stop calls GetProgress
-            stopped = true;
+            isStopped = true;
             progress = 1;
         }
 
@@ -82,19 +83,23 @@ var GetProgress = (multiplier) => {
 };
 /* */
 var Stop = () => {
-    stopped = true;
     let times = 1;
+    let iterations = 1;
     while (progress < 1) {
-        GetProgress(times);
+        GetProgress(times, iterations); // Add extra time
+        console.log(progress + "; times: " + times + "; " + isStopped);
 
-        times *= 2;
-        times=  Math.abs(times);
+        times *= 1.1;
+        times = Math.abs(times);
+        iterations += 1;
 
         if (times > 10e9)
         {
             break;
         }
     }
+
+    isStopped = true;
 
     return lastRes;
 };

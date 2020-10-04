@@ -305,6 +305,11 @@ const main = async function()
 
     stopButton.addEventListener("click", () =>
     {
+        if (simulationState)
+        {
+            simulationState.stop();
+        }
+
         stopped = true;
         hideControls();
     });
@@ -585,6 +590,12 @@ SimulationState = (function(state)
     this.getRelMass = () =>
     {
         return mRel;
+    };
+
+    this.stop = () =>
+    {
+        Stop();
+        this.step();// Collect data from calculation system.
     };
 });
 
