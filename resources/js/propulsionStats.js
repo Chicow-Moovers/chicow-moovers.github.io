@@ -39,8 +39,8 @@
                 ctx.restore();
             }
 
-            let time = (new Date()).getTime(); // Milliseconds
-            ctx.fillRect(x, y, width, height);
+            //let time = (new Date()).getTime(); // Milliseconds
+            //ctx.fillRect(x, y, width, height);
 
             // Pause...
             await JSHelper.nextAnimationFrame();
