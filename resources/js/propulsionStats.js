@@ -634,12 +634,29 @@ function fmtTime(days)
 
     let years = Math.floor(days / 365 * 100) / 100;
 
-    if (years > 1)
+    if (years < 1000)
     {
-        return fmtExp(years.toExponential(2)) + " years";
+        if (years > 1)
+        {
+            return Math.floor(years / 5) * 5 + " years";
+        }
+
+        return "1 year";
     }
 
-    return "1 year";
+    if (years < 1_000_000)
+    {
+        let thousandsOfYears = years / 1000;
+        return Math.floor(thousandsOfYears / 5) * 5 + " thousand years";
+    }
+
+    if (years < 1e9)
+    {
+        let millionsOfYears = years / 1e6;
+        return Math.floor(millionsOfYears / 5) * 5 + " million years";
+    }
+
+    return fmtExp((Math.floor(years / 1e9 / 100) * 100).toExponential(2)) + " billion years";
 }
 
 main();
