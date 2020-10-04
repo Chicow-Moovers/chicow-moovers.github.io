@@ -58,6 +58,7 @@ var GetProgress = (multiplier, additionalTime) => {
 
         if (propulsionType != "Alcubierre Drive"){
                 mrel = mass / Math.sqrt(1 - Math.pow(velocity / c, 2));
+                console.log(Math.pow(velocity / c, 2));
 
                 velocity += thrustForce/mrel * deltaTime;
                 travelDistance += velocity * deltaTime;
