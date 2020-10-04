@@ -44,4 +44,29 @@
     });
 
     updateCtx();
+
+    let activeTile = null; // Initially, no active tile.
+
+    // Allow tiles to be selected/unselected.
+    for (const tile of tiles)
+    {
+        tile.addEventListener("click", () =>
+        {
+            if (tile == activeTile)
+            {
+                activeTile = null;
+                tile.classList.remove("selected");
+            }
+            else
+            {
+                if (activeTile)
+                {
+                    activeTile.classList.remove("selected");
+                }
+
+                tile.classList.add("selected");
+                activeTile = tile;
+            }
+        });
+    }
 })();
