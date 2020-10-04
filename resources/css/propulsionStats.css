@@ -27,6 +27,10 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+
+    border-bottom: 1px solid grey;
+
+    padding: 12px 0px 12px 0px;
 }
 
 .propulsionStats .tiles > .tile
