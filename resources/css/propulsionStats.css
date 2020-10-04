@@ -50,7 +50,7 @@
     background-color: rgba(0, 0, 0, 0.0);
     transform: scale(1, 1);
 
-    transition: all 1s ease;
+    transition: all 0.3s ease;
 }
 
 .propulsionStats .tiles > .tile img
@@ -82,6 +82,7 @@
     background-color: rgba(100, 100, 100, 0.3);
 
     transform: scale(1.1, 1.1);
+    z-index: 3;
 }
 
 .propulsionStats .tiles > .tile.selected
@@ -90,4 +91,5 @@
     filter: saturate(120%);
 
     transform: scale(1.08, 1.08);
+    z-index:2;
 }
