@@ -4,6 +4,7 @@
 <head>
     <title>Chicow Moovers</title>
 
+    <!-- Better window scaling on mobile devices (don't start super zoomed out) -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <meta charset="utf-8" />
 
@@ -11,10 +12,12 @@
     <link rel="stylesheet" href="resources/css/propulsionStats.css"/>
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <!-- Contains a useful mapping from onkeypress[enter] -> onclick. -->
+    <!-- Simplifies some JavaScript code. -->
     <script src="LibJS/Libs/JSHelper.js"></script>
 
-    <!-- Stores preferences. -->
+    <!-- 
+        User preferences (dark theme, light theme).
+    -->
     <script src="LibJS/Libs/MathHelper.js"></script>
     <script src="LibJS/Libs/SerializationHelper.js"></script>
     <script src="LibJS/Libs/StorageHelper.js"></script>
@@ -29,9 +32,12 @@
         <div class="title">Chicow Moovers</div>
         <div class="spacing"></div>
     </header>
+
+    <!-- Put quick display options here? -->
     <div class="optionsBeam">
         <button id="changeTheme"></button>
     </div>
+
 
     <main>
         <h1>Propulsion Technology Stat Pack</h1>
@@ -54,12 +60,23 @@
         </div>
     </main>
 
+    <!-- Put a short description of the project in the footer? -->
     <footer></footer>
 </body>
 
+<!-- 
+    Include JavaScript files related to the content of the page.
+
+    Can we simplify this with ES6?
+    Ref: https://hacks.mozilla.org/2015/08/es6-in-depth-modules/
+-->
 <script src = "resources/js/propulsionStats.js"></script>
 
 <script>
+    // TODO There is probably a better way to do this!
+    //      I think we could look at 
+    //      https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onload
+    //      if we want to refactor this...
     JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
 </script>
 
