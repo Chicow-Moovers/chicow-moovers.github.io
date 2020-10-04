@@ -30,6 +30,23 @@ const FORCE_VALUES =
     "Arkjet - MR210": 0.25,
 };
 
+const PROPULSION_TYPES = (function()
+{
+    let result = [];
+
+    for (const name in FORCE_VALUES)
+    {
+        result[name] = true;
+    }
+
+    for (const name in FIXED_SPEEDS)
+    {
+        result[name] = true;
+    }
+
+    return result;
+})();
+
 // In kg
 const SAT_MASS =
 {
@@ -40,3 +57,5 @@ const SAT_MASS =
     "Saturn V": 140_000,
     "SpaceX' Interplanetary Transport System": 2_400_000,
 };
+
+const TILE_ICON_URLS = {};

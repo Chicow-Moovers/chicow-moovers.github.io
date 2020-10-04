@@ -24,6 +24,9 @@
 
     <!-- Special in-page utilities. -->
     <script src="resources/js/themeSwitch.js"></script>
+
+    <!-- Any data... -->
+    <script src="resources/js/data.js"></script>
 </head>
 
 <body>
@@ -45,35 +48,37 @@
         <div class="propulsionStats">
             <canvas></canvas>
 
-            <div class = "tiles propulsionChoice">
-                <div class = "tile" name="EMDrive">
-                    <img src="./resources/ui/favicon_small.svg"/>
-
-                    <div>A Demo Tile</div>
-                </div>
-
-                <div class = "tile" name="Solar Sail">
-                    <img src="./resources/ui/favicon.svg"/>
-                    <div>Demo Tile #2</div>
-                </div>
-
-                <div class = "tile" name="Test">
-                    <img src="./resources/ui/favicon_small.svg"/>
-                    <div>Demo Tile #3</div>
-                </div>
+            <div class = "stats">
+                <div id="thrust">...</div>
+                <div id="distance">...</div>
+                <div id="mass">...</div>
             </div>
 
-            <div class = "tiles planetChoice">
-                <!-- Autofilled -->
-                <div class = "tile" name="foo">
-                    <img src="./resources/ui/favicon.svg"/>
-                    <div>Another tile</div>
-                </div>
+            <div class = "controls">
+
             </div>
 
-            <div class = "tiles objectChoice">
-                <!-- Autofilled -->
-            </div>
+            <details>
+                <summary>Propulsion</summary>
+                <div class = "tiles propulsionChoice">
+                    <!-- Filled by JS -->
+                </div>
+            </details>
+
+
+            <details>
+                <summary>Planet</summary>
+                <div class = "tiles planetChoice">
+                    <!-- Autofilled -->
+                </div>
+            </details>
+
+            <details>
+                <summary>Object</summary>
+                <div class = "tiles objectChoice">
+                    <!-- Autofilled -->
+                </div>
+            </details>
         </div>
     </main>
 
