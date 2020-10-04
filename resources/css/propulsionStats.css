@@ -48,6 +48,7 @@
 
     filter: saturate(50%);
     background-color: rgba(0, 0, 0, 0.0);
+    transform: scale(1, 1);
 
     transition: all 1s ease;
 }
@@ -79,10 +80,14 @@
     filter: saturate(100%);
     box-shadow: 2px 2px 16px var(--shadow-color);
     background-color: rgba(100, 100, 100, 0.3);
+
+    transform: scale(1.1, 1.1);
 }
 
 .propulsionStats .tiles > .tile.selected
 {
     background-color: rgba(100, 100, 100, 0.8);
     filter: saturate(120%);
+
+    transform: scale(1.08, 1.08);
 }
