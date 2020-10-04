@@ -13,12 +13,14 @@ let propulsionType;
 let velocity;
 let stopped;
 let lastRes, startTime;
+let fullDelta;
 const c = 299800000;
 
 // Occurs on play
 var Setup = (propulsion, m, distKm, thrust) => {
         time = 0
         previousTime = 0;
+        startTime = 0;
         propulsionType = propulsion;
         mass = m;
         velocity = 0;
@@ -29,6 +31,8 @@ var Setup = (propulsion, m, distKm, thrust) => {
         destinationDistance = distKm * 1000;
         totalDistance = distKm;
         thrustForce = thrust || 0;
+
+        fullDelta = 0;
 };
 
 var GetProgress = (multiplier) => {
@@ -37,7 +41,7 @@ var GetProgress = (multiplier) => {
             return lastRes;
         }
 
-        time = new Date().getTime() / 1000 * 60 * 60 * 24; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
+        time = new Date().getTime() / 1000; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
 
         if (!startTime)
         {
@@ -49,7 +53,7 @@ var GetProgress = (multiplier) => {
             previousTime = time;
         }
 
-        deltaTime = (time - previousTime) * multiplier;
+        deltaTime = (time - previousTime) * multiplier * 60 * 60 * 24;
 
         if (propulsionType != "Alcubierre Drive"){
                 mrel = mass/Math.sqrt(1-Math.pow(velocity,2) / Math.pow(c,2));
@@ -71,7 +75,9 @@ var GetProgress = (multiplier) => {
             progress = 1;
         }
 
-        lastRes = [progress, (time - startTime) * multiplier, mrel];
+        fullDelta += deltaTime;
+
+        lastRes = [progress, fullDelta / 60/60/24, mrel];
         return lastRes;
 };
 /* */

@@ -558,7 +558,7 @@ SimulationState = (function(state)
 
 function fmtExp(text)
 {
-    return text.replace(/e/g, " * 10^").replace(/[+]/g, "");
+    return text.replace(/e[+]?0$/, "").replace(/e/g, " * 10^").replace(/[+]/g, "");
 }
 
 
