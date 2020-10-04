@@ -17,7 +17,7 @@ const PLANET_DISTANCES =
 // km /s
 const FIXED_SPEEDS =
 {
-    "Alcubierre Drive": 500_000, 
+    "Alcubierre Drive": 500_000_000, 
 }
 
 // N

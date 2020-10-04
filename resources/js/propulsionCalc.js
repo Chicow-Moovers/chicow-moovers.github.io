@@ -66,7 +66,7 @@ var GetProgress = (multiplier, additionalTime) => {
                 //console.log(mrel + "; " + velocity + "; " + travelDistance);
         }
         else {
-                travelDistance += 500000000;
+                travelDistance += 500000000 * deltaTime;
                 mrel = mass;
         }
 
@@ -84,14 +84,28 @@ var GetProgress = (multiplier, additionalTime) => {
         lastRes = [progress, fullDelta / 60/60/24, mrel];
         return lastRes;
 };
+
 /* */
 var Stop = () => {
+    if (propulsionType == "Alcubierre Drive")
+    {
+        fullDelta = totalDistance / 500_000_000 * 60*60*24; // x = vt -> t = x/v
+        progress = 1.0;
+        mrel = mass;
+
+        lastRes = [progress, fullDelta / 60/60/24, mrel];
+        isStopped = true;
+
+        return lastRes;
+    }
+
     let times = 1;
     let iterations = 1;
+
     while (progress < 1) {
         GetProgress(times, iterations); // Add extra time
 
-        times *= 1.03;
+        times *= 1.005;
         times = Math.abs(times);
         iterations += 1;
 
