@@ -57,7 +57,8 @@ var GetProgress = (multiplier, additionalTime) => {
         deltaTime = (time - previousTime) * multiplier * 60 * 60 * 24;
 
         if (propulsionType != "Alcubierre Drive"){
-                mrel = mass/Math.sqrt(1-Math.pow(velocity / c,2));
+                mrel = mass / Math.sqrt(1 - Math.pow(velocity / c, 2));
+
                 velocity += thrustForce/mrel * deltaTime;
                 travelDistance += velocity * deltaTime;
 
@@ -65,6 +66,7 @@ var GetProgress = (multiplier, additionalTime) => {
         }
         else {
                 travelDistance += 500000000;
+                mrel = mass;
         }
 
         progress = travelDistance/1000/totalDistance;
@@ -78,7 +80,7 @@ var GetProgress = (multiplier, additionalTime) => {
 
         fullDelta += deltaTime;
 
-        lastRes = [progress, fullDelta / 60/60/24, mrel || mass];
+        lastRes = [progress, fullDelta / 60/60/24, mrel];
         return lastRes;
 };
 /* */

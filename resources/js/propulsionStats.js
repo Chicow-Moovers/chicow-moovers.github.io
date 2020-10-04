@@ -638,7 +638,7 @@ function fmtTime(days)
     {
         if (years > 1)
         {
-            return Math.floor(years *5) / 5 + " years";
+            return Math.floor(years * 5) / 5 + " years";
         }
 
         return "1 year";
