@@ -193,6 +193,8 @@ main
 {
     flex-grow: 50;
     flex-shrink: 50;
+
+    height: 30px;
 }
 
 header .icon
