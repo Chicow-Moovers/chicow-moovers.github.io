@@ -204,7 +204,7 @@ const main = async function()
 
             ctx.fillText(Math.floor(days / 7 * 100)/100 + " week(s) elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.fillText(fmtExp(dist.toExponential(2)) + " km traveled", ctx.canvas.width / 2, ctx.canvas.height / 2 - textHeight);
-            ctx.fillText(Math.round(progress * 100) + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
+            ctx.fillText(Math.round(progress * 100 * 10) / 10 + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
 
             ctx.restore();
         }
@@ -225,7 +225,7 @@ const main = async function()
             showingControls = true;
         }
 
-        if (!showingRunningControls && waitingForClick)
+        if (showingRunningControls && waitingForClick)
         {
             runningTray.classList.remove("hidden");
             pendingTray.classList.add("hidden");
