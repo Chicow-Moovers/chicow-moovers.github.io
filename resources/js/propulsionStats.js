@@ -215,7 +215,7 @@ const main = async function()
             ctx.textBaseline = "bottom";
             ctx.font = "bold 12pt courier, calibri, mono, monospace";
 
-            ctx.fillText("Relativistic Mass: " + fmtExp(mRel.toExponential(2)) + " kg", ctx.canvas.width, ctx.canvas.height);
+            ctx.fillText(fmtExp(mRel.toExponential(2)) + " kg", ctx.canvas.width, ctx.canvas.height);
 
             ctx.restore();
         }
