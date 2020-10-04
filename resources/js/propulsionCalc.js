@@ -37,7 +37,7 @@ var GetProgress = (multiplier) => {
             return lastRes;
         }
 
-        time = new Date().getTime() / 1000 * 60 * 60 * 24 * multiplier; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
+        time = new Date().getTime() / 1000 * 60 * 60 * 24; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
 
         if (!startTime)
         {
@@ -49,12 +49,7 @@ var GetProgress = (multiplier) => {
             previousTime = time;
         }
 
-        if (stopped == false){
-                deltaTime = time - previousTime;
-        }
-        else{
-                deltaTime = 60 * 60 * 24;
-        }
+        deltaTime = (time - previousTime) * multiplier;
 
         if (propulsionType != "Alcubierre Drive"){
                 mrel = mass/Math.sqrt(1-Math.pow(velocity,2) / Math.pow(c,2));
@@ -76,7 +71,7 @@ var GetProgress = (multiplier) => {
             progress = 1;
         }
 
-        lastRes = [progress, time - startTime, mrel];
+        lastRes = [progress, (time - startTime) * multiplier, mrel];
         return lastRes;
 };
 /* */

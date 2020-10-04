@@ -202,9 +202,13 @@ const main = async function()
 
             let textHeight = ctx.measureText("M.").width;
 
-            ctx.fillText(Math.floor(days / 7 * 100)/100 + " week(s) elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.fillText(fmtExp((days / 7).toExponential(2)) + " week(s) elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.fillText(fmtExp(dist.toExponential(2)) + " km traveled", ctx.canvas.width / 2, ctx.canvas.height / 2 - textHeight);
             ctx.fillText(Math.round(progress * 100 * 10) / 10 + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
+
+            let dtWeek = (multip.value / 7).toExponential(2);
+            ctx.font = "bold 14pt courier, calibri, mono, monospace";
+            ctx.fillText(fmtExp(dtWeek) + " simulation-week(s) pass per second", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight * 2);
 
             ctx.restore();
         }
@@ -227,11 +231,19 @@ const main = async function()
 
         if (showingRunningControls && waitingForClick)
         {
+            runningTray.classList.add("hidden");
+            pendingTray.classList.remove("hidden");
+            showingRunningControls = false;
+        }
+        
+        if (!showingRunningControls && !waitingForClick && !stopped)
+        {
             runningTray.classList.remove("hidden");
             pendingTray.classList.add("hidden");
             showingRunningControls = true;
         }
-        else if (stopped && showingRunningControls)
+        
+        if (stopped && showingRunningControls)
         {
             runningTray.classList.add("hidden");
             pendingTray.classList.remove("hidden");
