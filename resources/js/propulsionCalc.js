@@ -77,24 +77,24 @@ var GetProgress = (multiplier) => {
 
         fullDelta += deltaTime;
 
-        lastRes = [progress, fullDelta / 60/60/24, mrel];
+        lastRes = [progress, fullDelta / 60/60/24, mrel || mass];
         return lastRes;
 };
 /* */
 var Stop = () => {
-        stopped = true;
-        let times = 1;
-        while (progress < 1) {
-            GetProgress(times);
+    stopped = true;
+    let times = 1;
+    while (progress < 1) {
+        GetProgress(times);
 
-            times *= 2;
-            times=  Math.abs(times);
+        times *= 2;
+        times=  Math.abs(times);
 
-            if (times > 10e9)
-            {
-                break;
-            }
+        if (times > 10e9)
+        {
+            break;
         }
+    }
 
-        return lastRes;
+    return lastRes;
 };

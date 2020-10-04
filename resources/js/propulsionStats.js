@@ -174,7 +174,7 @@ const main = async function()
         }
         else
         {
-            simulationState.setMult(multip.value);
+            simulationState.setMult(multip.value * multip.value);
 
             if (!stopped)
             {
@@ -184,6 +184,7 @@ const main = async function()
             let progress = simulationState.getProgress();
             let dist = simulationState.getDistTraveled();
             let days = simulationState.getDays();
+            let mRel = simulationState.getRelMass();
 
             if (progress >= 1)
             {
@@ -206,9 +207,15 @@ const main = async function()
             ctx.fillText(fmtExp(dist.toExponential(2)) + " km traveled", ctx.canvas.width / 2, ctx.canvas.height / 2 - textHeight);
             ctx.fillText(Math.round(progress * 100 * 10) / 10 + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
 
-            let dtWeek = (multip.value / 7).toExponential(2);
+            let dtWeek = (multip.value * multip.value * 60 * 60 * 24).toExponential(2);
             ctx.font = "bold 14pt courier, calibri, mono, monospace";
-            ctx.fillText(fmtExp(dtWeek) + " simulation-week(s) pass per second", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight * 2);
+            ctx.fillText("x" + fmtExp(dtWeek) + " Speed", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight * 2);
+
+            ctx.textAlign = "right";
+            ctx.textBaseline = "bottom";
+            ctx.font = "bold 12pt courier, calibri, mono, monospace";
+
+            ctx.fillText("Relativistic Mass: " + fmtExp(mRel.toExponential(2)) + " kg", ctx.canvas.width, ctx.canvas.height);
 
             ctx.restore();
         }
@@ -240,6 +247,7 @@ const main = async function()
         {
             runningTray.classList.remove("hidden");
             pendingTray.classList.add("hidden");
+            multip.value = 1;
             showingRunningControls = true;
         }
         
@@ -553,6 +561,11 @@ SimulationState = (function(state)
     this.getDays = () =>
     {
         return dt;
+    };
+
+    this.getRelMass = () =>
+    {
+        return mRel;
     };
 });
 

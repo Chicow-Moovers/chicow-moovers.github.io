@@ -26,7 +26,7 @@ const FORCE_VALUES =
     EmDrive: 0.2,
     "Iodine RF Ion Thruster": 0.0012,
     VASIMR: 5,
-    "SuperDraco - SpaceX": 71_000,
+    "Solar Sail": 0.000058,
     "Arkjet - MR210": 0.25,
 };
 
