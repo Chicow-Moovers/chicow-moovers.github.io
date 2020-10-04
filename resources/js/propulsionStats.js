@@ -5,13 +5,15 @@
 
 // Function forward-declarations.
 let handleTileGroup;
-let StatTextDisplayManager;
+let StatTextDisplayManager, SimulationState;
 
 // We use async here so we can use await inside this function...
 const main = async function()
 {
     // Wait for page load...
     await JSHelper.Notifier.waitFor(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
+
+    let simulationState = null;
 
 
     const fillTileGroups = (classNS, data) =>
@@ -46,6 +48,16 @@ const main = async function()
     const statArea = document.querySelector(".propulsionStats");
     const canvas = document.querySelector(".propulsionStats canvas");
     const tiles = document.querySelectorAll(".propulsionStats .tiles .tile");
+    const controls = document.querySelector(".controls");
+    const startButton = document.querySelector(".controls #start");
+    const stopButton = document.querySelector(".controls #stop");
+    const multip      = document.querySelector(".controls #rate");
+    const runningTray = document.querySelector(".controls #while-running");
+    const pendingTray = document.querySelector(".controls #pre-start");
+
+    // Hide the controls until the user has entered input.
+    controls.style.display = "none";
+    controls.classList.add("hidden");
 
     const propulsionOptions = handleTileGroup("propulsionChoice");
     const planetOption = handleTileGroup("planetChoice");
@@ -84,6 +96,9 @@ const main = async function()
 
     const handleInvalidCase = () =>
     {
+        simulationState = null; // Invalidate our state obj.
+
+
         let time = (new Date()).getTime();
 
         ctx.save();
@@ -130,6 +145,113 @@ const main = async function()
         ctx.restore();
     };
 
+    const handleValidCase = () =>
+    {
+        if (simulationState == null)
+        {
+            const propName = propulsionOptions.getCurrentTileName();
+            const thrust   = FORCE_VALUES[propName]       || 0;
+            const vel      = FIXED_SPEEDS[propName] || 0;
+
+            const objName = objectOption.getCurrentTileName();
+            const mass = SAT_MASS[objName] || 0;
+
+            const target = planetOption.getCurrentTileName();
+            const dist = PLANET_DISTANCES[target];
+
+            simulationState = new SimulationState(
+                {
+                    thrust: thrust,
+                    vel: vel,
+                    propLabel: propName,
+
+                    mass: mass,
+                    objName: objName,
+
+                    dist: dist,
+                }
+            );
+        }
+        else
+        {
+            simulationState.setMult(multip.value);
+
+            if (!stopped)
+            {
+                simulationState.step();
+            }
+
+            let progress = simulationState.getProgress();
+            let dist = simulationState.getDistTraveled();
+            let days = simulationState.getDays();
+
+            ctx.save();
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, ctx.canvas.width * progress, ctx.canvas.height);
+
+            ctx.fillStyle = "grey";
+            ctx.font = "bold 18pt courier, calibri, mono, monospace";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            let textHeight = ctx.measureText("M.").width;
+
+            ctx.fillText(Math.floor(days / 7 * 100)/100 + " week(s) elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.fillText(fmtExp(dist.toExponential(2)) + " km traveled", ctx.canvas.width / 2, ctx.canvas.height / 2 - textHeight);
+            ctx.fillText(Math.round(progress * 100) + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
+
+            ctx.restore();
+        }
+    };
+
+    let waitingForClick = false;
+    let stopped = false;
+
+    let showingControls = false;
+    let showingRunningControls = false;
+
+    let showControls = () =>
+    {
+        if (!showingControls)
+        {
+            controls.classList.remove("hidden");
+            controls.style.display = "block";
+            showingControls = true;
+        }
+
+        if (showingRunningControls == waitingForClick)
+        {
+            runningTray.classList.remove("hidden");
+            pendingTray.classList.add("hidden");
+        }
+    };
+
+    let hideControls = () =>
+    {
+        if (showingControls)
+        {
+            showingControls = false;
+            controls.classList.add("hidden");
+            pendingTray.classList.remove("hidden");
+            runningTray.classList.add("hidden");
+            controls.style.display = "none";
+        }
+
+    };
+
+    startButton.addEventListener("click", () =>
+    {
+        waitingForClick = false;
+        showControls();
+    });
+
+    stopButton.addEventListener("click", () =>
+    {
+        stopped = true;
+        hideControls();
+    });
+
     // Display the current status...
     const updateCtxLoop = 
     (async function()
@@ -153,7 +275,19 @@ const main = async function()
 
             if (!statDisplayManager.isValid())
             {
+                hideControls();
+
                 handleInvalidCase();
+                waitingForClick = true;
+            }
+            else if (!waitingForClick)
+            {
+                showControls();
+                handleValidCase();
+            }
+            else
+            {
+                showControls();
             }
 
             // Pause...
@@ -290,7 +424,7 @@ StatTextDisplayManager = (function()
 
         if (decimalPlaces !== undefined && value !== undefined)
         {
-            text = value.toExponential(decimalPlaces).replace(/e/g, " * 10^").replace(/[+]/g, "");
+            text = fmtExp(value.toExponential(decimalPlaces));
         }
 
         if (value === undefined || value === null)
@@ -331,6 +465,71 @@ StatTextDisplayManager = (function()
         this.update(display);
     }
 });
+
+SimulationState = (function(state)
+{
+    /*
+    stat:
+        thrust: thrust in N,
+        vel: vel in km/s,
+        propLabel: Name of the propellant,
+
+        mass: mass in kg,
+        objName: Name of the satellite/objecth,
+
+        dist: distance to travel,
+    */
+
+    let distGone = 0;
+    let started = false;
+    let mult = 1;
+    let dt = 0, mRel= 0;
+
+    this.step = () =>
+    {
+        if (!started)
+        {
+            Setup(state.propLabel, state.mass, state.dist);
+            started = true;
+        }
+        else
+        {
+            let tuple = GetProgress(mult);
+
+            //console.log(tuple);
+
+            progress = tuple[0];
+            distGone = progress * state.dist;
+            mRel = tuple[2];
+            dt = tuple[1];
+        }
+    };
+
+    this.setMult = (newMultiplier) =>
+    {
+        mult = newMultiplier;
+    };
+
+    this.getDistTraveled = () =>
+    {
+        return distGone;
+    };
+
+    this.getProgress = () =>
+    {
+        return distGone / state.dist;
+    };
+
+    this.getDays = () =>
+    {
+        return dt;
+    };
+});
+
+function fmtExp(text)
+{
+    return text.replace(/e/g, " * 10^").replace(/[+]/g, "");
+}
 
 
 main();

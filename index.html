@@ -46,13 +46,13 @@
         <h1>Propulsion Technology Stat Pack</h1>
 
         <div class="propulsionStats">
-            <div class = "controls hidden" aria-hidden="true">
+            <div class = "controls hidden">
                 <div id="pre-start">
-                    <button>Start</button>
+                    <button id="start">Start</button>
                 </div>
-                <div id="while-running" class="hidden" aria-hidden="true">
-                    <button>Stop</button>
-                    <input type="range" min = "0" max="10" value = "0" />
+                <div id="while-running" class="hidden">
+                    <button id="stop">Stop</button>
+                    <input type="range" min = "0" max="10" value = "0" id="rate" alt="rate" />
                 </div>
             </div>
 
@@ -98,6 +98,7 @@
     Can we simplify this with ES6?
     Ref: https://hacks.mozilla.org/2015/08/es6-in-depth-modules/
 -->
+<script src = "resources/js/propulsionCalc.js"></script>
 <script src = "resources/js/propulsionStats.js"></script>
 
 <script>
