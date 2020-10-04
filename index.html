@@ -8,6 +8,7 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="resources/css/main.css" />
+    <link rel="stylesheet" href="resources/css/propulsionStats.css"/>
     <link rel="icon" type="image/png" href="favicon.png" />
 
     <!-- Contains a useful mapping from onkeypress[enter] -> onclick. -->
@@ -19,7 +20,7 @@
     <script src="LibJS/Libs/StorageHelper.js"></script>
 
     <!-- Special in-page utilities. -->
-    <script src="resources/ui/themeSwitch.js"></script>
+    <script src="resources/js/themeSwitch.js"></script>
 </head>
 
 <body>
@@ -34,10 +35,20 @@
 
     <main>
         <h1>Propulsion Technology Stat Pack</h1>
+
+        <div class="propulsionStats">
+            <canvas></canvas>
+
+            <div>
+                <div class = "tile">A Demo Tile</div>
+            </div>
+        </div>
     </main>
 
     <footer></footer>
 </body>
+
+<script src = "resources/js/propulsionStats.js"></script>
 
 <script>
     JSHelper.Notifier.notify(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
