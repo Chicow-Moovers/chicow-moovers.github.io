@@ -23,6 +23,7 @@ const main = async function()
         for (const name in data)
         {
             const tile = document.createElement("div");
+            const spacer = document.createElement("span");
 
             tile.classList.add("tile");
             tile.setAttribute("name", name);
@@ -33,8 +34,11 @@ const main = async function()
             const description = document.createElement("div");
             description.textContent = name;
 
-            tile.appendChild(img);
+            spacer.classList.add("spacer");
+
             tile.appendChild(description);
+            tile.appendChild(spacer);
+            tile.appendChild(img);
 
             parent.appendChild(tile);
         }

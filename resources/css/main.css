@@ -189,6 +189,12 @@ main
     flex-shrink: 1;
 }
 
+.spacer
+{
+    flex-grow: 50;
+    flex-shrink: 50;
+}
+
 header .icon
 {
     background-image: url(../ui/favicon.svg);
