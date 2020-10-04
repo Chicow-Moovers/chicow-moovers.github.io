@@ -43,6 +43,13 @@
 
     display: flex;
     flex-flow: column-reverse;
+
+    cursor: pointer;
+
+    filter: saturate(50%);
+    background-color: rgba(0, 0, 0, 0.0);
+
+    transition: all 1s ease;
 }
 
 .propulsionStats .tiles > .tile img
@@ -65,4 +72,17 @@
     text-align: center;
 
     box-shadow: 0px 0px 4px var(--shadow-color);
+}
+
+.propulsionStats .tiles > .tile:hover, .propulsionStats .tiles > .tile:focus, .propulsionStats .tiles > .tile.active
+{
+    filter: saturate(100%);
+    box-shadow: 2px 2px 16px var(--shadow-color);
+    background-color: rgba(100, 100, 100, 0.3);
+}
+
+.propulsionStats .tiles > .tile.selected
+{
+    background-color: rgba(100, 100, 100, 0.8);
+    filter: saturate(120%);
 }
