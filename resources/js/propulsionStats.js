@@ -222,7 +222,7 @@ const main = async function()
 
             let textHeight = ctx.measureText("M.").width;
 
-            ctx.fillText(fmtExp((days / 7).toExponential(2)) + " week(s) elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.fillText(fmtTime(days) + " elapsed", ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.fillText(fmtExp(dist.toExponential(2)) + " km traveled", ctx.canvas.width / 2, ctx.canvas.height / 2 - textHeight);
             ctx.fillText(Math.round(progress * 100 * 10) / 10 + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
 
@@ -604,5 +604,42 @@ function fmtExp(text)
     return text.replace(/e[+]?0$/, "").replace(/e/g, " * 10^").replace(/[+]/g, "");
 }
 
+// Output a readable representation of a time duration (given in days).
+// Assumes large time durations.
+function fmtTime(days)
+{
+    days = Math.floor(days * 10) / 10;
+
+    if (days < 7)
+    {
+        if (days !== 1)
+        {
+            return days + " days";
+        }
+
+        return days + " day";
+    }
+
+    if (days < 365)
+    {
+        let weeks = Math.floor(days / 7 * 10) / 10;
+
+        if (weeks > 1)
+        {
+            return weeks + " weeks";
+        }
+
+        return weeks + " week";
+    }
+
+    let years = Math.floor(days / 365 * 100) / 100;
+
+    if (years > 1)
+    {
+        return fmtExp(years.toExponential(2)) + " years";
+    }
+
+    return "1 year";
+}
 
 main();

@@ -89,7 +89,7 @@ var Stop = () => {
         GetProgress(times, iterations); // Add extra time
         console.log(progress + "; times: " + times + "; " + isStopped);
 
-        times *= 1.1;
+        times *= 1.03;
         times = Math.abs(times);
         iterations += 1;
 
