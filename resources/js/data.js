@@ -29,3 +29,14 @@ const FORCE_VALUES =
     "SuperDraco - SpaceX": 71_000,
     "Arkjet - MR210": 0.25,
 };
+
+// In kg
+const SAT_MASS =
+{
+    "Cube Sat": 1.33,
+    "Voyager 1": 733,
+    "GSAT-11": 5_854,
+    "New Glenn": 13_000,
+    "Saturn V": 140_000,
+    "SpaceX' Interplanetary Transport System": 2_400_000,
+};
