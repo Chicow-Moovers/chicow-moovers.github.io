@@ -150,6 +150,11 @@ const main = async function()
         {
             invalReason = "AN OBJECT";
         }
+        else
+        {
+            invalReason = "START";
+            ctx.fillStyle = "#00ffcc";
+        }
 
         ctx.fillText(loadingText, ctx.canvas.width / 2, ctx.canvas.height / 2);
 
@@ -353,6 +358,7 @@ const main = async function()
             else
             {
                 showControls();
+                handleInvalidCase();
             }
 
             // Pause...
