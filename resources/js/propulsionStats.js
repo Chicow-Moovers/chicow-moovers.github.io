@@ -69,13 +69,15 @@ const main = async function()
     planetOption.setOnChange((planet) =>
     {
         let dist = PLANET_DISTANCES[planet];
-        statDisplayManager.update(statDisplayManager.keys.DISTANCE, dist, 2); //... 
+        statDisplayManager.update(statDisplayManager.keys.DISTANCE, dist, 2); //...
+        waitingForClick = true; 
     });
 
     objectOption.setOnChange((object) =>
     {
         let mass = SAT_MASS[object];
         statDisplayManager.update(statDisplayManager.keys.MASS, mass, 2);
+        waitingForClick = true;
     });
 
     propulsionOptions.setOnChange((object) =>
@@ -90,6 +92,7 @@ const main = async function()
 
         let thrust = FORCE_VALUES[object];
         statDisplayManager.update(key, thrust, 2);
+        waitingForClick = true;
     });
 
     const ctx = canvas.getContext("2d");
