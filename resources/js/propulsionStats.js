@@ -103,8 +103,15 @@ const main = async function()
 
         ctx.save();
 
+
+        let big = 18;
+        if (canvas.clientWidth < 450)
+        {
+            big = 13;
+        }
+
         ctx.fillStyle = "white";
-        ctx.font = "bold 18pt courier, calibri, mono, monospace";
+        ctx.font = "bold "+big+"pt courier, calibri, mono, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -196,8 +203,17 @@ const main = async function()
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, ctx.canvas.width * progress, ctx.canvas.height);
 
+            let big = 18, med = 14, small=12;
+
+            if (canvas.clientWidth < 400)
+            {
+                big = 13;
+                med = 11;
+                small = 9;
+            }
+
             ctx.fillStyle = "grey";
-            ctx.font = "bold 18pt courier, calibri, mono, monospace";
+            ctx.font = "bold " + big + "pt courier, calibri, mono, monospace";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
@@ -208,12 +224,12 @@ const main = async function()
             ctx.fillText(Math.round(progress * 100 * 10) / 10 + "%", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight);
 
             let dtWeek = (multip.value * multip.value * 60 * 60 * 24).toExponential(2);
-            ctx.font = "bold 14pt courier, calibri, mono, monospace";
+            ctx.font = "bold "+med+"pt courier, calibri, mono, monospace";
             ctx.fillText("x" + fmtExp(dtWeek) + " Speed", ctx.canvas.width / 2, ctx.canvas.height / 2 + textHeight * 2);
 
             ctx.textAlign = "right";
             ctx.textBaseline = "bottom";
-            ctx.font = "bold 12pt courier, calibri, mono, monospace";
+            ctx.font = "bold "+small+"pt courier, calibri, mono, monospace";
 
             ctx.fillText(fmtExp(mRel.toExponential(2)) + " kg", ctx.canvas.width, ctx.canvas.height);
 
