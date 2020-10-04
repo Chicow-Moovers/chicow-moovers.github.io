@@ -1,6 +1,10 @@
 
 # Propulsion Technology Stat Pack
 
+## Accuracy Notes
+
+The force exerted by a Solar Sail is approximate! In the simulation, varying distance from the sun amd other light sources is not taken into consideration.
+
 ## Cloning
 
 ```bash
@@ -12,7 +16,7 @@ $ git submodule init
 $ git submodule update
 ```
 
-The last two lines are needed to allow any `JSHelper.something` functions to work. These additional steps are rather annoying... 
+The last two lines are needed to allow any `JSHelper.something` functions to work.
 
 ## Testing It -- Hosting Locally
 
