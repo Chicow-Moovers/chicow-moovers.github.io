@@ -1,17 +1,91 @@
+/* 
+ * I just learned about variables in CSS!
+ * https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a 
+ *
+ * The syntax is a little strange...
+ * All variables start with two dashes (e.g. --foo).
+ * 
+ * Say I wanted to set --foo to 2px.
+ * I could do this:
+ *
+ * body
+ * {
+ *  --foo: 2px;
+ * }
+ *
+ * Then, in anything inside of the body, like a div,
+ * (when writing rules)
+ * I can use this variable.
+ *
+ * For example, 
+ *
+ * span
+ * {
+ *  font-size: var(--foo);
+ * }
+ *
+ * Another example:
+ *
+ * body
+ * {
+ *  --main-color: red;
+ * }
+ *
+ * div
+ * {
+ *  background-color: var(--main-color);
+ *  box-shadow: 0px 0px 3px var(--main-color); // Shadow with color --main-color
+ * }
+ *
+ * body > div // A div that is a direct child of the body. E.g. (<body><DIV></DIV>...</div>)
+ * {
+ *  color: var(--main-color);
+ * }
+ */
+
+
+/**
+ * The `:root` query-selector is almost the same thing as the 
+ * `html` query-selector. The difference is that rules defined for 
+ * `:root` override those defined using the `html` selector.
+ *
+ * In other words, `:root` is considered "more specific" than `html`.
+ */
 :root
 {
+    /* Define "light-mode" variables. :) */
     --main-bg-color: rgba(200, 200, 200, 1.0);
     --main-fg-color: rgba(0, 0, 0, 1.0);
 
     --background-bg-color: rgba(100, 100, 100, 1.0);
     --background-fg-color: rgba(150, 150, 150, 1.0);
 
+    /* 
+     * Some images need inverting when we're in dark mode. We can 
+     * do this by saying that images that should be inverted in light mode should
+     * have a `filter: invert(percent here)`, etc.
+     */
     --main-inverted-value: 100%;
     --main-uninverted-value: 0%;
 
+    /*
+     * Calculate this based on the width & height of the screen.
+     * This way, devices with narrow screens have bigger icons, as these
+     * are probably mobile phones.
+     *
+     * I'm **sure** that there is a better way to do this...
+     */
     --action-button-size: calc(min(max(4vh - 2vw, 10px), 40px));
 }
 
+/* 
+ * When `<html data-theme="dark">` is what the html element looks like...
+ *
+ * (Set this using 
+ *   var html = document.querySelector(':root'); // or 'html'
+ *   html.setAttribute('data-theme', 'dark');
+ * )
+ */
 :root[data-theme="dark"]
 {
     --main-bg-color: rgba(50, 50, 50, 1.0);
@@ -24,24 +98,33 @@
     --main-uninverted-value: 100%;
 }
 
-/* Please see https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a */
+/* 
+ * Please see https://medium.com/@mwichary/dark-theme-in-a-day-3518dde2955a 
+ *
+ * This provides a smooth transition between dark and light themes.
+ * Clicking on the theme-change button causes JavaScript to `.add`
+ * the class `transitioning-color-scheme` to the `classList` of 
+ * `:root` (which is, of course, the `<html>...</html>` element).
+ */
 :root.transitioning-color-theme *,
     :root.transitioning-color-theme *::before,
     :root.transitioning-color-theme *::after
 {
-    transition: 0.8s ease all !important;
+    transition: 0.8s ease all !important; /* Transition EVERYTHING. */
 }
 
+/* The change-theme floating button. */
 #changeTheme
 {
-    box-sizing: border-box;
 
-    padding: var(--action-button-size);
+    padding: var(--action-button-size); /* Get the value of the variable --action-button-size */
+
     margin-left: auto; /* Push to the right. */
     margin-right: 6px;
-    display: block;    /* Permits moving to the right. */
+    
+    display: block;    /* LET US move it to the right using margin-left: auto. */
 
-    border: none;
+    border: none;        /* No border. */
     border-radius: 100%; /* Completely circular */
 
     cursor: pointer;
@@ -49,18 +132,20 @@
     background-color: rgba(255, 255, 255, 0.5);
     background-image: url(../ui/themeSwitch.svg);
     background-size: 100% 100%;
-    filter: invert(var(--main-uninverted-value));
 
+    filter: invert(var(--main-uninverted-value)); /* We will animate this! */
     transform: rotate(1deg);
+
     box-shadow: -2px 0px 4px rgba(150, 150, 150, 0.5);
 
-    transition: filter 0.5s ease, transform 0.25s ease;
+    transition: filter 0.5s ease, transform 0.25s ease; /* Animate changes to filter & transform! */
 }
 
+/* Visual effect when hovering over the theme changer: */
 #changeTheme:hover
 {
-    filter: invert(var(--main-inverted-value));
-    transform: rotate(14deg);
+    filter: invert(var(--main-inverted-value)); /* Invert its colors (again?)! */
+    transform: rotate(14deg); /* Rotate it 14 degrees, too! */
 }
 
 main
@@ -139,6 +224,20 @@ body
 
 @media screen and (max-width: 460px)
 {
+    /*
+     * Should we set --action-button-size here
+     * for mobile devices? It might be nicer than 
+     * what we do right now...
+     *
+     * E.g.
+     * :root
+     * {
+     *  --action-button-size: something;
+     * }
+     *
+     * because this is where we apply mobile styling.
+     */
+
     main
     {
         transform: scale(1, 1);
@@ -147,6 +246,7 @@ body
     }
 }
 
+/* Is the page being printed? */
 @media print
 {
     main
