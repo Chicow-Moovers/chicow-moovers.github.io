@@ -12,14 +12,13 @@ let previousTime;
 let propulsionType;
 let velocity;
 let stopped;
-let lastRes;
+let lastRes, startTime;
 const c = 299800000;
 
 // Occurs on play
-var Setup = (propulsion, m, distKm) => {
-        totalDistance = Math.abs(destination - origin);
+var Setup = (propulsion, m, distKm, thrust) => {
         time = 0
-        previousTime = new Date().getTime();
+        previousTime = 0;
         propulsionType = propulsion;
         mass = m;
         velocity = 0;
@@ -28,6 +27,8 @@ var Setup = (propulsion, m, distKm) => {
 /* */
         //Distance units in METERS, very important
         destinationDistance = distKm * 1000;
+        totalDistance = distKm;
+        thrustForce = thrust || 0;
 };
 
 var GetProgress = (multiplier) => {
@@ -38,6 +39,16 @@ var GetProgress = (multiplier) => {
 
         time = new Date().getTime() / 1000 * 60 * 60 * 24 * multiplier; // 1 month*multiplier's worth of seconds. [Note] The month part confuses me...
 
+        if (!startTime)
+        {
+            startTime = time;
+        }
+
+        if (!previousTime)
+        {
+            previousTime = time;
+        }
+
         if (stopped == false){
                 deltaTime = time - previousTime;
         }
@@ -45,36 +56,18 @@ var GetProgress = (multiplier) => {
                 deltaTime = 60 * 60 * 24;
         }
 
-        if (propulsionType == "Solar Sail"){
-                thrustForce = .000058;
-        }
-        if (propulsionType == "emDrive"){
-                thrustForce = .02;
-        }
-        if (propulsionType == "Ion Thruster"){
-                thrustForce = .0012;
-        }
-        if (propulsionType == "Vasimr"){
-                thrustForce = 5;
+        if (propulsionType != "Alcubierre Drive"){
+                mrel = mass/Math.sqrt(1-Math.pow(velocity,2) / Math.pow(c,2));
+                velocity += thrustForce/mrel * deltaTime;
+                travelDistance += velocity * deltaTime;
 
+                //console.log(mrel + "; " + velocity + "; " + travelDistance);
         }
-        if (propulsionType == "Arkjet"){
-                thrustForce = .25;
-
-        }
-        for (let i = 0; i <= Math.floor(deltaTime); i++){
-                if (propulsionType != "Alcubierre Drive"){
-                        mrel = mass/Math.sqrt(1-Math.exp(velocity,2) / Math.exp(c,2));
-                        velocity += thrustForce/mrel;
-                        travelDistance += velocity ;
-                }
-                else {
-                        travelDistance += 500000000;
-                }
+        else {
+                travelDistance += 500000000;
         }
 
-/* */        let delTime = time - previousTime;
-        progress = travelDistance/totalDistance;
+        progress = travelDistance/1000/totalDistance;
         previousTime = time;
 
         if (progress >= 1){
@@ -83,7 +76,7 @@ var GetProgress = (multiplier) => {
             progress = 1;
         }
 
-        lastRes = [progress, delTime/60/60/24, mrel];
+        lastRes = [progress, time - startTime, mrel];
         return lastRes;
 };
 /* */

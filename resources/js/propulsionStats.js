@@ -185,6 +185,11 @@ const main = async function()
             let dist = simulationState.getDistTraveled();
             let days = simulationState.getDays();
 
+            if (progress >= 1)
+            {
+                stopped = true;
+            }
+
             ctx.save();
 
             ctx.fillStyle = "white";
@@ -220,10 +225,17 @@ const main = async function()
             showingControls = true;
         }
 
-        if (showingRunningControls == waitingForClick)
+        if (!showingRunningControls && waitingForClick)
         {
             runningTray.classList.remove("hidden");
             pendingTray.classList.add("hidden");
+            showingRunningControls = true;
+        }
+        else if (stopped && showingRunningControls)
+        {
+            runningTray.classList.add("hidden");
+            pendingTray.classList.remove("hidden");
+            showingRunningControls = false;
         }
     };
 
@@ -242,7 +254,13 @@ const main = async function()
 
     startButton.addEventListener("click", () =>
     {
+        if (stopped)
+        {
+            simulationState = null; // Reset.
+        }
+
         waitingForClick = false;
+        stopped = false;
         showControls();
     });
 
@@ -263,7 +281,6 @@ const main = async function()
             {
                 canvas.width = canvas.clientWidth;
                 canvas.height = canvas.clientHeight;
-
             }
 
             ctx.save();
@@ -489,7 +506,8 @@ SimulationState = (function(state)
     {
         if (!started)
         {
-            Setup(state.propLabel, state.mass, state.dist);
+            console.log(state);
+            Setup(state.propLabel, state.mass, state.dist, state.thrust);
             started = true;
         }
         else
