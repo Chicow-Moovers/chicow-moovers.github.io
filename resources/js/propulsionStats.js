@@ -36,7 +36,12 @@
                 ctx.textBaseline = "middle";
 
                 ctx.strokeText("Testing", ctx.canvas.width / 2, ctx.canvas.height / 2);
+
+                ctx.restore();
             }
+
+            let time = (new Date()).getTime(); // Milliseconds
+            ctx.fillRect(x, y, width, height);
 
             // Pause...
             await JSHelper.nextAnimationFrame();

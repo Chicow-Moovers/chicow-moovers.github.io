@@ -91,5 +91,5 @@
     filter: saturate(120%);
 
     transform: scale(1.08, 1.08);
-    z-index:2;
+    z-index: 2;
 }
