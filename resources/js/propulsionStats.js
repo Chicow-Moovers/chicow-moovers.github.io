@@ -1,22 +1,21 @@
 "use strict";
 
-/**
- *  This script is intended entirely to demonstrate
- *  CSS-related functionality of the current layout.
- *
- *  IT WILL BE REPLACED.
- */
+// Note: themeSwitch.js is rather over-commented. It may be helpful,
+// it may not be...
 
+// We use async here so we can use await inside this function...
 (async function()
 {
+    // Wait for page load...
     await JSHelper.Notifier.waitFor(JSHelper.GlobalEvents.PAGE_SETUP_COMPLETE);
 
+    // Get elements using CSS query-selectors.
     const statArea = document.querySelector(".propulsionStats");
     const canvas = document.querySelector(".propulsionStats canvas");
     const tiles = document.querySelectorAll(".propulsionStats .tiles .tile");
 
-    // Display a message on the canvas
-    const updateCtx = 
+    // Display the current status...
+    const updateCtxLoop = 
     (async function()
     {
         const ctx = canvas.getContext("2d");
@@ -48,7 +47,7 @@
         }
     });
 
-    updateCtx();
+    updateCtxLoop(); // Loop, loop, loop. But lets us run everything below here first.
 
     let activeTile = null; // Initially, no active tile.
 
